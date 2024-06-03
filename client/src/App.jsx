@@ -11,7 +11,19 @@ import {
   Profile,
   Admin,
   EditJob,
+  AllJobs
 } from './pages';
+
+export const checkDefaultTheme = () => {
+  console.log(localStorage.getItem('darkTheme') === 'true', 'ls')
+  const isDarkTheme = localStorage.getItem('darkTheme') === 'true'
+  console.log('check', isDarkTheme)
+  localStorage.setItem('darkTheme', isDarkTheme)
+  document.body.classList.toggle('dark-theme', isDarkTheme)
+  return isDarkTheme
+}
+
+checkDefaultTheme()
 
 const route = createBrowserRouter([
   {
@@ -33,7 +45,29 @@ const route = createBrowserRouter([
       },
       {
         path: 'dashboard',
-        element: <DashBoardLayout />
+        element: <DashBoardLayout/>,
+        children: [
+          {
+            index: true,
+            element: <AddJob />
+          },
+          {
+            path: 'stats',
+            element: <Stats />
+          },
+          {
+            path: 'all-jobs',
+            element: <AllJobs />
+          },
+          {
+            path: 'profile',
+            element: <Profile />
+          },
+          {
+            path: 'admin',
+            element: <Admin />
+          }
+        ]
       }
     ],
   },
